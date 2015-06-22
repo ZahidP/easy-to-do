@@ -1,0 +1,167 @@
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<polymer-element name="task-list">
+<template>
+
+<style>
+
+#tasklist {
+  font-size:1.25em;
+}
+.task {
+  width:800px;
+  border: 2px solid hsla(0,0%,30%,.5);
+  border-radius: 3px;
+  margin-bottom: 5px;
+  height:39px;
+  overflow:hidden;
+}
+#tasklist div.desc {
+  float:left;
+  width:50%;
+  display:inline-block;
+  padding-top: 4px;
+  text-align: center;
+  border-right: 1px solid hsla(0,0%,30%,.75);
+  height:39px;
+  box-sizing: border-box;
+}
+#tasklist div.status {
+  float:left;
+  width:12%;
+  display: inline-block;
+  padding-top: 12px;
+  text-align: center;
+  font-size: 12px;
+}
+#tasklist div.delete {
+  height:39px;
+  box-sizing: border-box;
+  float:left;
+  width:14%;
+  display: inline-block;
+  background-color: hsla(5,70%,40%,.85);
+  box-shadow: 0px 0px 2px hsla(0,0%,40%,.75);
+  color: hsla(205,0%,95%,1);
+  cursor: pointer;
+  padding-top: 4px;
+  text-align: center;
+  border-bottom: 2px solid hsla(5,70%,30%,.85);
+  }
+#new-task-input {
+  width:50%;
+  padding: 4px;
+  border-radius:8px;
+  box-shadow: none;
+  border: 1px solid hsla(0%,0%,40%,1);
+  height: 2em;
+  font-size: 16px;
+}
+#addNew {
+  margin-top: 3em;
+}
+</style>
+
+
+
+
+
+  <h2> Task List </h2>
+  <div id="tasklist">
+    <core-ajax id="ajax-new"
+               url="/new"
+               method="POST"
+               params='{"description":"_"}'
+               handleAs="json"
+               on-core-response="{{tasksResponse}}"
+               on-core-error="{{listError}}">
+             </core-ajax>
+   <core-ajax id="ajax-delete"
+              url="/delete"
+              on-core-response="{{tasksResponse}}"
+              on-core-error="{{listError}}">
+            </core-ajax>
+
+
+    <template repeat="{{task in tasks}}">
+      <div class="task">
+        <div class="desc">
+        {{ task.description }}
+        </div>
+        <div class="status">
+          {{task.status}}
+        </div>
+        <div class="status">
+          {{task.status}}
+        </div>
+        <div class="status">
+          {{task.status}}
+        </div>
+        <div class="delete">
+          Remove
+        </div>
+      </div>
+    </template>
+    <div id="addNew">
+      <input id="new-task-input" value="{{taskData}}" placeholder="Task Description Here"> </input>
+      <button on-click="{{addTask}}"> Add New Task </button>
+  </div>
+
+
+
+
+
+
+</template>
+
+<script>
+Polymer({
+
+
+  ready: function() {
+    this.tasks = [{"description":'Stupid task',"status":'Done'},{"description":'Stupid task',"status":'In Progress'}];
+    this.newTask = {"description":'Describe your task here',"status":'Not Done'}
+    this.taskData = '';
+  },
+  addTask: function () {
+    //this.tasks = this.tasks.push(this.newTask);
+    var ajaxDolla = this.$['ajax-new'];
+    ajaxDolla.body = {"description":this.taskData};
+    //this.$['ajax-new'].go();
+    console.log(ajaxDolla);
+    if (ajaxDolla) {
+      ajaxDolla.go();
+    }
+
+
+  },
+  removeTask: function (id) {
+    for (var i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].id === id) {
+        this.tasks.splice(i,1);
+      }
+    }
+  },
+  editTask: function (id) {
+    //this.tasks[]
+  },
+  changeStatus: function () {
+
+  },
+  tasksResponse: function(e,res) {
+    console.log(res);
+    this.tasks = res.response;
+  }
+
+
+});
+
+
+
+
+</script>
+
+
+
+
+
+</polymer-element>

@@ -1,0 +1,23 @@
+{
+  "name": "to-do",
+  "version": "0.0.0",
+  "description": "to do list",
+  "main": "index.html",
+  "authors": [
+    "zahid panjwani"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  "bootstrap": "~3.3.4",
+  "core-component-page": "Polymer/core-component-page#^0.5",
+  "polymer": "~0.5.5"
+  }
+}
